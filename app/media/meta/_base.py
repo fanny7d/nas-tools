@@ -389,6 +389,12 @@ class MetaBase(object):
     # 返回资源类型字符串，不含分辨率
     def get_edtion_string(self):
         ret_string = ""
+        # Keep the cut marker from the source filename when renaming a movie.
+        original = self.org_string or ""
+        if self.type == MediaType.MOVIE and re.search(
+                r"(?i)(?<![a-z0-9])extended(?:[ ._-]+(?:edition|version|cut))?(?![a-z0-9])|加长版|加長版|延长版",
+                original):
+            ret_string = "加长版"
         if self.resource_type:
             ret_string = f"{ret_string} {self.resource_type}"
         if self.resource_effect:
