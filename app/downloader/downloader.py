@@ -565,8 +565,8 @@ class Downloader:
                         rmt_mode=rmt_mode)
                     if not done_flag:
                         log.warn(f"【Downloader】下载器 {name} 任务%s 转移失败：%s" % (task.get("path"), done_msg))
-                        _client.set_torrents_status(ids=task.get("id"),
-                                                    tags=task.get("tags"))
+                        # Leave failed tasks eligible for the next scheduled retry.
+                        continue
                     else:
                         if rmt_mode in [RmtMode.MOVE, RmtMode.RCLONE, RmtMode.MINIO]:
                             log.warn(f"【Downloader】下载器 {name} 移动模式下删除种子文件：%s" % task.get("id"))

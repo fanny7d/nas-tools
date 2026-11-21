@@ -12,8 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Test naming
-        run: python3 -m unittest discover -s tests -p test_extended_edition.py -v
+      - name: Test naming and download retries
+        run: |
+          python3 -m unittest discover -s tests -p test_extended_edition.py -v
+          python3 -m unittest discover -s tests -p test_downloader_retry.py -v
       - name: Prepare build context
         run: python3 scripts/prepare_fork_image.py --output "$RUNNER_TEMP/nastools-context" --revision "$GITHUB_SHA"
       - uses: docker/setup-buildx-action@v3
